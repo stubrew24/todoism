@@ -4,6 +4,7 @@
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
+    "watch": "webpack --watch --config webpack.config.js",
     "start": "tsc && npm run build && open ./public/index.html",
     "compile": "tsc",
     "build": "webpack --config webpack.config.js",
@@ -22,6 +23,6 @@
   "homepage": "https://github.com/stubrew24/todoit#readme",
   "devDependencies": {
     "webpack": "^4.41.6",
-    "webpack-cli": "^4.0.0-beta.2"
+    "webpack-cli": "^4.0.0-beta.3"
   }
 }

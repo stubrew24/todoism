@@ -75,11 +75,7 @@ class View {
         const li = this.createElement("li");
         li.id = todo.id;
 
-        // const checkbox = this.createElement("input");
-        // (<HTMLInputElement>checkbox).type = "checkbox";
-        // (<HTMLInputElement>checkbox).checked = todo.complete;
-
-        const span = this.createElement("span");
+        const span = this.createElement("div");
         span.contentEditable = "true";
         span.classList.add("editable");
 

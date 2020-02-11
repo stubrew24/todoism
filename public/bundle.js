@@ -1,1 +1,137 @@
-!function(t){var e={};function o(i){if(e[i])return e[i].exports;var n=e[i]={i:i,l:!1,exports:{}};return t[i].call(n.exports,n,n.exports,o),n.l=!0,n.exports}o.m=t,o.c=e,o.d=function(t,e,i){o.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},o.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},o.t=function(t,e){if(1&e&&(t=o(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(o.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var n in t)o.d(i,n,function(e){return t[e]}.bind(null,n));return i},o.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return o.d(e,"a",e),e},o.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},o.p="",o(o.s=0)}([function(t,e,o){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=o(1),n=o(2),r=o(3);new n.default(new i.default,new r.default)},function(t,e,o){"use strict";var i=this&&this.__assign||function(){return(i=Object.assign||function(t){for(var e,o=1,i=arguments.length;o<i;o++)for(var n in e=arguments[o])Object.prototype.hasOwnProperty.call(e,n)&&(t[n]=e[n]);return t}).apply(this,arguments)};Object.defineProperty(e,"__esModule",{value:!0});var n=function(){function t(){this.ids=[],this.todos=JSON.parse(localStorage.getItem("todos"))||[]}return t.prototype._commit=function(t){this.onTodoListChanged(t),localStorage.setItem("todos",JSON.stringify(t))},t.prototype.uid=function(){var t=Math.floor(167777215*Math.random()).toString(16);return this.ids.includes(t)?t=this.uid():this.ids.push(t),t},t.prototype.addTodo=function(t){var e={id:this.uid(),text:t,complete:!1};this.todos.push(e),this._commit(this.todos)},t.prototype.editTodo=function(t,e){this.todos=this.todos.map((function(o){return o.id===t?i(i({},o),{text:e}):o})),this._commit(this.todos)},t.prototype.deleteTodo=function(t){this.todos=this.todos.filter((function(e){return e.id!==t})),this._commit(this.todos)},t.prototype.toggleTodo=function(t){this.todos=this.todos.map((function(e){return e.id===t?i(i({},e),{complete:!e.complete}):e})),this._commit(this.todos)},t.prototype.bindTodoListChanged=function(t){this.onTodoListChanged=t},t}();e.default=n},function(t,e,o){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=function(t,e){var o=this;this.model=t,this.view=e,this.onTodoListChanged=function(t){o.view.displayTodos(t)},this.handleAddTodo=function(t){return o.model.addTodo(t)},this.handleEditTodo=function(t,e){return o.model.editTodo(t,e)},this.handleDeleteTodo=function(t){return o.model.deleteTodo(t)},this.handleToggleTodo=function(t){return o.model.toggleTodo(t)},this.onTodoListChanged(this.model.todos),this.view.bindAddTodo(this.handleAddTodo),this.view.bindDeleteTodo(this.handleDeleteTodo),this.view.bindToggleTodo(this.handleToggleTodo),this.view.bindEditTodo(this.handleEditTodo),this.model.bindTodoListChanged(this.onTodoListChanged)};e.default=i},function(t,e,o){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=function(){function t(){this.app=this.getElement("#root"),this.app.className="card",this.title=this.createElement("h1"),this.title.className="card-title",this.title.textContent="TODOISM",this.form=this.createElement("form"),this.form.className="form",this.input=this.createElement("input"),this.input.type="text",this.input.placeholder="Add todo",this.input.name="todo",this.input.className="form-control",this.todoList=this.createElement("ul","todo-list"),this.form.append(this.input),this.app.append(this.title,this.form,this.todoList),this._initLocalListeners()}return t.prototype._initLocalListeners=function(){var t=this;this.todoList.addEventListener("input",(function(e){"editable"===e.target.className&&(t._temporaryTodoText=e.target.innerText)}))},Object.defineProperty(t.prototype,"_todoText",{get:function(){return this.input.value},enumerable:!0,configurable:!0}),t.prototype._resetInput=function(){this.input.value=""},t.prototype.createElement=function(t,e){var o=document.createElement(t);return e&&(o.className=e),o},t.prototype.getElement=function(t){return document.querySelector(t)},t.prototype.displayTodos=function(t){for(var e=this;this.todoList.firstChild;)this.todoList.removeChild(this.todoList.firstChild);if(0===t.length){var o=this.createElement("p");o.textContent="Nothing to do! Add a task?",this.todoList.append(o)}else t.forEach((function(t){var o=e.createElement("li");o.id=t.id;var i=e.createElement("span");if(i.contentEditable="true",i.classList.add("editable"),t.complete){var n=e.createElement("s");n.textContent=t.text,i.append(n)}else i.textContent=t.text;var r=e.createElement("button","checkbox btn");r.innerHTML="&#10004;",o.append(r,i,r);var d=e.createElement("button","delete btn");d.innerHTML="&#10008;",o.append(i,r,d),e.todoList.append(o)}))},t.prototype.bindAddTodo=function(t){var e=this;this.form.addEventListener("submit",(function(o){o.preventDefault(),e._todoText&&(t(e._todoText),e._resetInput())}))},t.prototype.bindDeleteTodo=function(t){this.todoList.addEventListener("click",(function(e){if("delete btn"===e.target.className){var o=e.target.parentElement.id;console.log(o),t(o)}}))},t.prototype.bindToggleTodo=function(t){this.todoList.addEventListener("click",(function(e){if("checkbox btn"===e.target.className){var o=e.target.parentElement.id;t(o)}}))},t.prototype.bindEditTodo=function(t){var e=this;this.todoList.addEventListener("focusout",(function(o){if(e._temporaryTodoText){var i=o.target.parentElement.id;t(i,e._temporaryTodoText),e._temporaryTodoText=""}}))},t}();e.default=i}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./dist/index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./dist/Controller.js":
+/*!****************************!*\
+  !*** ./dist/Controller.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar Controller = /** @class */ (function () {\n    function Controller(model, view) {\n        var _this = this;\n        this.model = model;\n        this.view = view;\n        this.onTodoListChanged = function (todos) {\n            _this.view.displayTodos(todos);\n        };\n        this.handleAddTodo = function (todoText) { return _this.model.addTodo(todoText); };\n        this.handleEditTodo = function (id, todoText) { return _this.model.editTodo(id, todoText); };\n        this.handleDeleteTodo = function (id) { return _this.model.deleteTodo(id); };\n        this.handleToggleTodo = function (id) { return _this.model.toggleTodo(id); };\n        this.onTodoListChanged(this.model.todos);\n        this.view.bindAddTodo(this.handleAddTodo);\n        this.view.bindDeleteTodo(this.handleDeleteTodo);\n        this.view.bindToggleTodo(this.handleToggleTodo);\n        this.view.bindEditTodo(this.handleEditTodo);\n        this.model.bindTodoListChanged(this.onTodoListChanged);\n    }\n    return Controller;\n}());\nexports.default = Controller;\n\n\n//# sourceURL=webpack:///./dist/Controller.js?");
+
+/***/ }),
+
+/***/ "./dist/Model.js":
+/*!***********************!*\
+  !*** ./dist/Model.js ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nvar __assign = (this && this.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar Model = /** @class */ (function () {\n    function Model() {\n        this.ids = [];\n        this.todos = JSON.parse(localStorage.getItem(\"todos\")) || [];\n    }\n    Model.prototype._commit = function (todos) {\n        this.onTodoListChanged(todos);\n        localStorage.setItem(\"todos\", JSON.stringify(todos));\n    };\n    Model.prototype.uid = function () {\n        var id = Math.floor(Math.random() * 167777215).toString(16);\n        this.ids.includes(id) ? (id = this.uid()) : this.ids.push(id);\n        return id;\n    };\n    Model.prototype.addTodo = function (todoText) {\n        var todo = {\n            id: this.uid(),\n            text: todoText,\n            complete: false\n        };\n        this.todos.push(todo);\n        this._commit(this.todos);\n    };\n    Model.prototype.editTodo = function (id, updatedText) {\n        this.todos = this.todos.map(function (todo) {\n            return todo.id === id ? __assign(__assign({}, todo), { text: updatedText }) : todo;\n        });\n        this._commit(this.todos);\n    };\n    Model.prototype.deleteTodo = function (id) {\n        this.todos = this.todos.filter(function (todo) { return todo.id !== id; });\n        this._commit(this.todos);\n    };\n    Model.prototype.toggleTodo = function (id) {\n        this.todos = this.todos.map(function (todo) {\n            return todo.id === id ? __assign(__assign({}, todo), { complete: !todo.complete }) : todo;\n        });\n        this._commit(this.todos);\n    };\n    Model.prototype.bindTodoListChanged = function (callback) {\n        this.onTodoListChanged = callback;\n    };\n    return Model;\n}());\nexports.default = Model;\n\n\n//# sourceURL=webpack:///./dist/Model.js?");
+
+/***/ }),
+
+/***/ "./dist/View.js":
+/*!**********************!*\
+  !*** ./dist/View.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar View = /** @class */ (function () {\n    function View() {\n        this.app = this.getElement(\"#root\");\n        this.app.className = \"card\";\n        this.title = this.createElement(\"h1\");\n        this.title.className = \"card-title\";\n        this.title.textContent = \"TODOISM\";\n        this.form = this.createElement(\"form\");\n        this.form.className = \"form\";\n        this.input = this.createElement(\"input\");\n        this.input.type = \"text\";\n        this.input.placeholder = \"Add todo\";\n        this.input.name = \"todo\";\n        this.input.className = \"form-control\";\n        this.todoList = this.createElement(\"ul\", \"todo-list\");\n        this.form.append(this.input);\n        this.app.append(this.title, this.form, this.todoList);\n        this._initLocalListeners();\n    }\n    View.prototype._initLocalListeners = function () {\n        var _this = this;\n        this.todoList.addEventListener(\"input\", function (event) {\n            if (event.target.className === \"editable\") {\n                _this._temporaryTodoText = event.target.innerText;\n            }\n        });\n    };\n    Object.defineProperty(View.prototype, \"_todoText\", {\n        get: function () {\n            return this.input.value;\n        },\n        enumerable: true,\n        configurable: true\n    });\n    View.prototype._resetInput = function () {\n        this.input.value = \"\";\n    };\n    View.prototype.createElement = function (tag, className) {\n        var element = document.createElement(tag);\n        if (className)\n            element.className = className;\n        return element;\n    };\n    View.prototype.getElement = function (selector) {\n        var element = document.querySelector(selector);\n        return element;\n    };\n    View.prototype.displayTodos = function (todos) {\n        var _this = this;\n        while (this.todoList.firstChild) {\n            this.todoList.removeChild(this.todoList.firstChild);\n        }\n        if (todos.length === 0) {\n            var p = this.createElement(\"p\");\n            p.textContent = \"Nothing to do! Add a task?\";\n            this.todoList.append(p);\n        }\n        else {\n            todos.forEach(function (todo) {\n                var li = _this.createElement(\"li\");\n                li.id = todo.id;\n                var span = _this.createElement(\"div\");\n                span.contentEditable = \"true\";\n                span.classList.add(\"editable\");\n                if (todo.complete) {\n                    var strike = _this.createElement(\"s\");\n                    strike.textContent = todo.text;\n                    span.append(strike);\n                }\n                else {\n                    span.textContent = todo.text;\n                }\n                var checkbox = _this.createElement(\"button\", \"checkbox btn\");\n                checkbox.innerHTML = \"&#10004;\";\n                li.append(checkbox, span, checkbox);\n                var deleteButton = _this.createElement(\"button\", \"delete btn\");\n                deleteButton.innerHTML = \"&#10008;\";\n                li.append(span, checkbox, deleteButton);\n                _this.todoList.append(li);\n            });\n        }\n    };\n    View.prototype.bindAddTodo = function (handler) {\n        var _this = this;\n        this.form.addEventListener(\"submit\", function (event) {\n            event.preventDefault();\n            if (_this._todoText) {\n                handler(_this._todoText);\n                _this._resetInput();\n            }\n        });\n    };\n    View.prototype.bindDeleteTodo = function (handler) {\n        this.todoList.addEventListener(\"click\", function (event) {\n            if (event.target.className === \"delete btn\") {\n                var id = event.target.parentElement.id;\n                console.log(id);\n                handler(id);\n            }\n        });\n    };\n    View.prototype.bindToggleTodo = function (handler) {\n        this.todoList.addEventListener(\"click\", function (event) {\n            if (event.target.className === \"checkbox btn\") {\n                var id = event.target.parentElement.id;\n                handler(id);\n            }\n        });\n    };\n    View.prototype.bindEditTodo = function (handler) {\n        var _this = this;\n        this.todoList.addEventListener(\"focusout\", function (event) {\n            if (_this._temporaryTodoText) {\n                var id = event.target.parentElement.id;\n                handler(id, _this._temporaryTodoText);\n                _this._temporaryTodoText = \"\";\n            }\n        });\n    };\n    return View;\n}());\nexports.default = View;\n\n\n//# sourceURL=webpack:///./dist/View.js?");
+
+/***/ }),
+
+/***/ "./dist/index.js":
+/*!***********************!*\
+  !*** ./dist/index.js ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar Model_1 = __webpack_require__(/*! ./Model */ \"./dist/Model.js\");\nvar Controller_1 = __webpack_require__(/*! ./Controller */ \"./dist/Controller.js\");\nvar View_1 = __webpack_require__(/*! ./View */ \"./dist/View.js\");\nvar app = new Controller_1.default(new Model_1.default(), new View_1.default());\n\n\n//# sourceURL=webpack:///./dist/index.js?");
+
+/***/ })
+
+/******/ });
