@@ -50,7 +50,7 @@ class View {
 
   createElement(tag: string, className?: string) {
     const element = document.createElement(tag);
-    if (className) element.classList.add(className);
+    if (className) element.className = className;
 
     return element;
   }
@@ -75,9 +75,9 @@ class View {
         const li = this.createElement("li");
         li.id = todo.id;
 
-        const checkbox = this.createElement("input");
-        (<HTMLInputElement>checkbox).type = "checkbox";
-        (<HTMLInputElement>checkbox).checked = todo.complete;
+        // const checkbox = this.createElement("input");
+        // (<HTMLInputElement>checkbox).type = "checkbox";
+        // (<HTMLInputElement>checkbox).checked = todo.complete;
 
         const span = this.createElement("span");
         span.contentEditable = "true";
@@ -91,9 +91,13 @@ class View {
           span.textContent = todo.text;
         }
 
-        const deleteButton = this.createElement("button", "delete");
-        deleteButton.textContent = "Delete";
-        li.append(checkbox, span, deleteButton);
+        const checkbox = this.createElement("button", "checkbox btn");
+        checkbox.innerHTML = "&#10004;";
+        li.append(checkbox, span, checkbox);
+
+        const deleteButton = this.createElement("button", "delete btn");
+        deleteButton.innerHTML = "&#10008;";
+        li.append(span, checkbox, deleteButton);
 
         this.todoList.append(li);
       });
@@ -112,7 +116,7 @@ class View {
 
   bindDeleteTodo(handler) {
     this.todoList.addEventListener("click", event => {
-      if ((<HTMLButtonElement>event.target).className === "delete") {
+      if ((<HTMLButtonElement>event.target).className === "delete btn") {
         const id = (<HTMLButtonElement>event.target).parentElement.id;
         console.log(id);
         handler(id);
@@ -121,8 +125,8 @@ class View {
   }
 
   bindToggleTodo(handler) {
-    this.todoList.addEventListener("change", event => {
-      if ((<HTMLInputElement>event.target).type === "checkbox") {
+    this.todoList.addEventListener("click", event => {
+      if ((<HTMLInputElement>event.target).className === "checkbox btn") {
         const id = (<HTMLInputElement>event.target).parentElement.id;
         handler(id);
       }

@@ -1,9 +1,21 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
 
 body {
-  background-color: #903787;
   font-family: "Roboto", Helvetica, sans-serif;
-  /* background-image: linear-gradient(#ffffff 0%, #6284ff 50%, #ff0000 100%); */
+  position: relative;
+  padding: 0;
+  margin: 0;
+  background: #6190e8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #fee140,
+    #fa709a
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #fee140,
+    #fa709a
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .card {
@@ -44,16 +56,28 @@ li {
   padding: 10px;
   border-radius: 10px;
   font-size: 15px;
+  margin: 10px 0;
 }
 
-li input[type="checkbox"] {
-  width: 5%;
+.editable {
+  margin: 0 10px;
 }
 
-li .editable {
-  width: 75%;
+.btn {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 2px;
+  background-color: #fff;
+  height: 26px;
+  width: 26px;
+  margin: 0 2px;
+  font-size: 16px;
+}
+
+.checkbox {
+  color: #00bb00;
 }
 
 .delete {
-  width: 20%;
+  color: #dd0000;
 }
