@@ -2,7 +2,6 @@
   "name": "ts-todo",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/index.js",
   "scripts": {
     "watch": "webpack --watch --config webpack.config.js",
     "start": "tsc && npm run build && open ./public/index.html",
